@@ -6,7 +6,7 @@ class StudentController {
   }
 
   getOneStudent(req, res, next) {
-    return handlerController.getAllData(req, res, next, "student");
+    return handlerController.getOneData(req, res, next, "student");
   }
 
   createStudent(req, res, next) {
@@ -35,6 +35,14 @@ class StudentController {
       req.body.password,
     ];
     return handlerController.createData(req, res, next, "student");
+  }
+
+  updateStudent(req, res, next) {
+    return handlerController.updateData(req, res, next, "student");
+  }
+
+  deleteStudent(req, res, next) {
+    return handlerController.deleteData(req, res, next, "student");
   }
 }
 

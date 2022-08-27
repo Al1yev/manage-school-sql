@@ -8,4 +8,12 @@ const pool = new Pool({
   database: "project_school",
 });
 
+pool.connect((err) => {
+  if (err) {
+    console.log("Could not connect to postgres:", err);
+    process.exit();
+  }
+  console.log("Connected to postgres");
+});
+
 module.exports = pool;
