@@ -9,6 +9,7 @@ CREATE TABLE student (
   course INT,
   course_letter VARCHAR(255) NOT NULL,
   class_id INT,
+  attendance INT,
   role VARCHAR(255) DEFAULT 'user',
   teacher_id uuid,
   parents_id uuid,

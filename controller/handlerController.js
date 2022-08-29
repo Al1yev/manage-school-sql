@@ -18,7 +18,8 @@ class HandlerController {
   getAllData = catchErrorAsync(async (req, res, next, table) => {
     const data = await db.query(`SELECT * FROM ${table}`);
 
-    if (data.length) return next(new AppError(`${table}s is not found!`, 404));
+    if (!data.rows.length)
+      return next(new AppError(`${table}s is not found!`, 404));
 
     res.status(200).json({
       status: "Success",
@@ -32,7 +33,8 @@ class HandlerController {
       `SELECT * FROM ${table} WHERE id='${req.params.id}';`
     );
 
-    if (!data.length) return next(new AppError(`${table} is not found!`, 404));
+    if (!data.rows.length)
+      return next(new AppError(`${table} is not found!`, 404));
 
     res.status(200).json({
       status: "Success",
@@ -43,13 +45,11 @@ class HandlerController {
 
   createData = catchErrorAsync(async (req, res, next, table) => {
     const data = await db.query(
-      `INSERT INTO ${table} (${req.fields.join(", ")})
-        VALUES (${dollarMake(req.data)}) RETURNING *`,
-      req.data
+      `INSERT INTO ${table} (${Object.keys(req.body).join(", ")})
+        VALUES (${Object.values(req.body).join(", ")}) RETURNING *`
     );
-
-    if (!data) return next(new AppError(`${table} is not created!`, 404));
-
+    if (!data.rows.length)
+      return next(new AppError(`${table} is not created!`, 404));
     res.status(201).json({
       status: "Success",
       results: data.rows.length,
@@ -65,7 +65,8 @@ class HandlerController {
       Object.values(req.body)
     );
 
-    if (!data) return next(new AppError(`${table} is not found!`, 404));
+    if (!data.rows.length)
+      return next(new AppError(`${table} is not found!`, 404));
 
     res.status(201).json({
       status: "Success",
@@ -79,7 +80,8 @@ class HandlerController {
       `DELETE FROM ${table} WHERE id = '${req.params.id}' RETURNING *;`
     );
 
-    if (!data) return next(new AppError(`${table} is not found!`, 404));
+    if (!data.rows.length)
+      return next(new AppError(`${table} is not found!`, 404));
 
     res.status(204).json({ status: "Success" });
   });
