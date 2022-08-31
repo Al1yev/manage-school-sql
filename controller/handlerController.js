@@ -1,6 +1,7 @@
 const AppError = require("../utility/AppError");
 const catchErrorAsync = require("../utility/catchAsync");
 const db = require("../config/db");
+const FeatureAPI = require("../utility/FeatureApi");
 
 const dollarMake = (array) => {
   let s = "";
@@ -16,7 +17,10 @@ const setMake = (array) => {
 
 class HandlerController {
   getAllData = catchErrorAsync(async (req, res, next, table) => {
-    const data = await db.query(`SELECT * FROM ${table}`);
+    console.log(new FeatureAPI(req, `SELECT * FROM ${table}`).filter());
+    const data = await db.query(
+      new FeatureAPI(req, `SELECT * FROM ${table}`).filter()
+    );
 
     if (!data.rows.length)
       return next(new AppError(`${table}s is not found!`, 404));
