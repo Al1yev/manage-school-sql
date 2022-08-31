@@ -17,11 +17,8 @@ const setMake = (array) => {
 
 class HandlerController {
   getAllData = catchErrorAsync(async (req, res, next, table) => {
-    console.log(
-      new FeatureAPI(req, `SELECT * FROM ${table}`).filter().sort().query
-    );
     const data = await db.query(
-      new FeatureAPI(req, `SELECT * FROM ${table}`).filter().sort().query
+      new FeatureAPI(req, `SELECT * FROM ${table}`).filter().query
     );
 
     if (!data.rows.length)
