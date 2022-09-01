@@ -2,7 +2,7 @@ const AppError = require("../utility/AppError");
 const catchErrorAsync = require("../utility/catchAsync");
 const db = require("../config/db");
 const FeatureAPI = require("../utility/FeatureApi");
-
+// require("dotenv").config({ path: "../config.env" });
 const dollarMake = (array) => {
   let s = "";
   for (let i = 1; i <= array.length; i++) s += `$${i}, `;
@@ -55,6 +55,10 @@ class HandlerController {
     );
     if (!data.rows.length)
       return next(new AppError(`${table} is not created!`, 404));
+    await db.query(`INSERT INTO email (email, role) VALUES ($1, $2)`, [
+      email,
+      role,
+    ]);
     res.status(201).json({
       status: "Success",
       results: data.rows.length,

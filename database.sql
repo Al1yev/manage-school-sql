@@ -40,3 +40,9 @@ CREATE TABLE teacher (
   PRIMARY KEY(id)
 );
 
+CREATE TABLE email (
+  id uuid DEFAULT uuid_generate_v4(),  
+  role VARCHAR(255) NOT NULL,  
+  PRIMARY KEY(id)
+);
+
