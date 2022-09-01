@@ -13,7 +13,7 @@ CREATE TABLE student (
   role VARCHAR(255) DEFAULT 'user',
   teacher_id uuid,
   parents_id uuid,
-  login VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY (teacher_id) REFERENCES teacher (id),
