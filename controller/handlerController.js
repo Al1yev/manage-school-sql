@@ -47,8 +47,6 @@ class HandlerController {
   });
 
   createData = catchErrorAsync(async (req, res, next, table) => {
-    console.log(`INSERT INTO ${table} (${Object.keys(req.body).join(", ")})
-        VALUES ('${Object.values(req.body).join("', '")}') RETURNING *`);
     const data = await db.query(
       `INSERT INTO ${table} (${Object.keys(req.body).join(", ")})
         VALUES ('${Object.values(req.body).join("', '")}') RETURNING *`
@@ -56,8 +54,8 @@ class HandlerController {
     if (!data.rows.length)
       return next(new AppError(`${table} is not created!`, 404));
     await db.query(`INSERT INTO email (email, role) VALUES ($1, $2)`, [
-      email,
-      role,
+      req.body.email,
+      req.body.role,
     ]);
     res.status(201).json({
       status: "Success",
